@@ -21,6 +21,6 @@ exit
 ```
  
 ### To do
-- [ ] Complete pi approximation monte-carlo
+- [x] Complete pi approximation monte-carlo
 - [ ] Add **CMakeLists.txt**
-- [ ] document `01-coin-flip.c` code
+- [x] document `01-coin-flip.c` code
