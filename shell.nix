@@ -1,10 +1,11 @@
 { pkgs ? import <nixpkgs> {} }:
 
 pkgs.mkShell{
-  nativeBuildInputs = with pkgs; [
-		gcc
-		pkg-config
+	nativeBuildInputs = with pkgs; [
+		gnuplot
 	];
-  
-  buildInputs = with pkgs; [];
+
+	buildInputs = with pkgs; [
+		gsl
+	];
 }
