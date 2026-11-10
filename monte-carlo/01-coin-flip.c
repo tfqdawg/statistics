@@ -2,45 +2,47 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define TRIALS 10000
+#define TRIALS 50000
 
 int main(void){
 	srand(time(NULL));
-
 	int heads_count = 0;
 
-	FILE *gp = popen("gnuplot -persist", "w");
-	if(!gp){
+	// gnuplot stdin pipe
+	FILE *gnuplot = popen("gnuplot -persist", "w");
+	if(!gnuplot){
 		perror("popen");
 		return 1;
 	}
-	fprintf(gp, "set title 'Monte Carlo Coin Flip'\n");
-	fprintf(gp, "set xlabel 'No. of trials'\n");
-	fprintf(gp, "set ylabel 'Estimated P(heads)'\n");
-	fprintf(gp, "set logscale x\n");
-	fprintf(gp, "set yrange [0:1]\n");
-	fprintf(gp, "plot '-' with lines title 'simulated', "
-	            "0.5 with lines dashes 2 title 'true value (0.5)'\n");
+
+	// plot settings
+	fprintf(gnuplot, "set title 'Monte Carlo Coin Flip'\n");
+	fprintf(gnuplot, "set xlabel 'No. of trials'\n");
+	fprintf(gnuplot, "set ylabel 'Estimated P(heads)'\n");
+	fprintf(gnuplot, "set logscale x\n");
+	fprintf(gnuplot, "set yrange [0:1]\n");
+	fprintf(gnuplot, "plot '-' with lines title 'simulated', " // Simulated line
+	            		 "0.5 with lines dashes 2 title 'true value (0.5)'\n"); // 0.5 line
 
 	for(int i = 0; i < TRIALS; i++){
 		int flip = rand() % 2;
 		if(flip == 0){
 			heads_count++;
 		}
-		fprintf(gp, "%d %f\n", i, (double)heads_count / i);
+		fprintf(gnuplot, "%d %f\n", i, (double)heads_count / i);
 	}
-	fprintf(gp, "e\n");
-	pclose(gp);
+	fprintf(gnuplot, "e\n");
+	pclose(gnuplot);
 
 	double probability = (double)heads_count / TRIALS;
 
-	printf("\n##################################\n");
-	printf("MONTE CARLO SIMULATION (COIN FLIP)\n");
-	printf("##################################\n");
-
+	// print results
+	printf("\n########################################\n");
+	printf("## MONTE CARLO SIMULATION (COIN FLIP) ##\n");
+	printf("########################################\n");
 	printf("Total Trials: %d\n", TRIALS);
 	printf("Heads counts: %d\n", heads_count);
-	printf("Simulated Probability: %.2f\n", probability);
+	printf("Simulated Probability: %.4f\n", probability);
 
 	return 0;
 }
