@@ -1,4 +1,4 @@
-# <p align="center"> Statistics in C </p>
+# <p align="center"> Statistics in C/C++ </p>
 
 ### 1.0 Why
 
